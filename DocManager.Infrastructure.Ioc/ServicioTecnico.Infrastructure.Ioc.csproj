@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DocManager.Application\ServicioTecnico.Application.csproj" />
+    <ProjectReference Include="..\DocManager.Domain\ServicioTecnico.Domain.csproj" />
+    <ProjectReference Include="..\DocManager.Infrastructure.Shared\ServicioTecnico.Infrastructure.Shared.csproj" />
+    <ProjectReference Include="..\DocManager.Infrastructure\ServicioTecnico.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

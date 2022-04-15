@@ -1,0 +1,13 @@
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\bin\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.deps.json
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\bin\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.dll
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\bin\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.pdb
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\bin\Debug\netcoreapp3.1\ServicioTecnico.Domain.dll
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\bin\Debug\netcoreapp3.1\ServicioTecnico.Domain.pdb
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\obj\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.csproj.AssemblyReference.cache
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\obj\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\obj\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.AssemblyInfoInputs.cache
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\obj\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.AssemblyInfo.cs
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\obj\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.csproj.CoreCompileInputs.cache
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\obj\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.csproj.CopyComplete
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\obj\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.dll
+C:\proyectos\ServicioTecnico\DocManager.Infrastructure.Shared\obj\Debug\netcoreapp3.1\ServicioTecnico.Infrastructure.Shared.pdb
