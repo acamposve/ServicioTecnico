@@ -1,6 +1,4 @@
-﻿using ServicioTecnico.Application;
-using ServicioTecnico.Infrastructure.Shared.Helpers;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -9,10 +7,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ServicioTecnico.Infrastructure.Ioc;
+using ServicioTecnico.Infrastructure.Shared.Helpers;
 using System;
 using System.Text;
 using System.Text.Json.Serialization;
-using ServicioTecnico.Infrastructure.Ioc;
 
 namespace WebApi
 {
@@ -33,9 +32,6 @@ namespace WebApi
             {
                 // serialize enums as strings in api responses (e.g. Role)
                 x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-
-                // ignore omitted parameters on models to enable optional params (e.g. User update)
-                x.JsonSerializerOptions.IgnoreNullValues = true;
             });
 
             services.AddSwaggerGen(c =>
@@ -53,7 +49,6 @@ namespace WebApi
           options.UseSqlServer(
               Configuration.GetConnectionString("DefaultConnection")));
             //Register dapper in scope    
-            
 
 
             // configure strongly typed settings objects
