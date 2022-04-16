@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using ServicioTecnico.Application.Commands.Users;
 using ServicioTecnico.Domain.Entities;
-using ServicioTecnico.Domain.Models.Users;
+using ServicioTecnico.Domain.Models.Customer;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +11,7 @@ namespace ServicioTecnico.Application.Mappings
     {
         public GeneralProfile()
         {
-            CreateMap<CreateRequest, CreateUserCommand>().ReverseMap();
+            CreateMap<CreateRequest, Customer>().ForMember(x => x.CustomerId, opt => opt.Ignore()).ReverseMap();
 
         }
     }

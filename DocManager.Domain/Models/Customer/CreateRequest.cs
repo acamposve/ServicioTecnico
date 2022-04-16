@@ -7,9 +7,6 @@ namespace ServicioTecnico.Domain.Models.Customer
 {
     public class CreateRequest
     {
-        [Key]
-        [Required]
-        public Guid CustomerId { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

@@ -114,5 +114,40 @@ namespace ServicioTecnico.Infrastructure.Repositories
 
             return result;
         }
+
+
+        public int Delete(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
+        {
+            int result = 0;
+            using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
+            try
+            {
+                if (db.State == ConnectionState.Closed)
+                    db.Open();
+
+                using var tran = db.BeginTransaction();
+                try
+                {
+                    result = db.Execute(sp, parms, commandType: commandType, transaction: tran);
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (db.State == ConnectionState.Open)
+                    db.Close();
+            }
+
+            return result;
+        }
     }
 }

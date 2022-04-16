@@ -43,7 +43,7 @@ namespace WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication2", Version = "v1" });
                 c.CustomSchemaIds(type => type.FullName);
             });
-            services.AddApplicationLayer();
+
 
 
 

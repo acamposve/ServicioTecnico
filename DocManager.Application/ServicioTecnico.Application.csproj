@@ -21,11 +21,4 @@
     <ProjectReference Include="..\DocManager.Infrastructure\ServicioTecnico.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\ReceiptStatus\" />
-    <Folder Include="Commands\ReceiptFiles\" />
-    <Folder Include="Commands\Receipts\" />
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
 </Project>
