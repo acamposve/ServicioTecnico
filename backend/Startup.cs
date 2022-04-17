@@ -12,6 +12,7 @@ using ServicioTecnico.Infrastructure.Shared.Helpers;
 using System;
 using System.Text;
 using System.Text.Json.Serialization;
+using WebApi.Extensions;
 
 namespace WebApi
 {
@@ -45,11 +46,8 @@ namespace WebApi
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddDbContext<DataContext.AppContext>(options =>
-          options.UseSqlServer(
-              Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext.AppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //Register dapper in scope    
-
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -84,7 +82,7 @@ namespace WebApi
                 o.MultipartBodyLengthLimit = int.MaxValue;
                 o.MemoryBufferThreshold = int.MaxValue;
             });
-
+            services.AddMyGraphQLServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,11 +96,10 @@ namespace WebApi
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-
-
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication2 v1"));
+
 
 
             app.UseAuthentication();
@@ -111,6 +108,8 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL().WithOptions(new HotChocolate.AspNetCore.GraphQLServerOptions()
+                { Tool = { Enable=true} });
             });
         }
     }

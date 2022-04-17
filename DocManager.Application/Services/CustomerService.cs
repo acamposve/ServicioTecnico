@@ -8,6 +8,7 @@ using ServicioTecnico.Infrastructure.Shared.Helpers;
 using ServicioTecnico.Infrastructure.Shared.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,9 +55,11 @@ namespace ServicioTecnico.Application.Services
             return await _customerRepository.CreateAsync(cus);
         }
 
-        public async Task<IReadOnlyList<Customer>> GetAllAsync()
+        public IQueryable<Customer> GetAllAsync()
         {
-            return await _customerRepository.GetAllAsync();
+            var customers = _customerRepository.GetAllAsync();
+
+            return customers.AsQueryable();
         }
 
         public async Task<Customer> GetByIdAsync(Guid id)

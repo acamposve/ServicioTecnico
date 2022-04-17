@@ -8,6 +8,7 @@ using ServicioTecnico.Infrastructure.Shared.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,9 +50,10 @@ namespace ServicioTecnico.Infrastructure.Repositories
             var updateArticle = Task.FromResult(_dapper.Delete(sql, dbPara, commandType: CommandType.Text));
         }
 
-        public async Task<IReadOnlyList<Customer>> GetAllAsync()
+        public IQueryable<Customer> GetAllAsync()
         {
-            return await Task.FromResult(_dapper.GetAll<Customer>($"Select * from [Customer]", null, commandType: CommandType.Text));
+            var customers = Task.FromResult(_dapper.GetAll<Customer>($"Select * from [Customer]", null, commandType: CommandType.Text));
+            return customers.Result.AsQueryable();
         }
 
         public async Task<Customer> GetByIdAsync(Guid id)

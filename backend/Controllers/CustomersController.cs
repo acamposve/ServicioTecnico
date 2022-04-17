@@ -28,7 +28,7 @@ namespace WebApi.Controllers
         public IActionResult GetAll()
         {
             var customers =  _customerService.GetAllAsync();
-            return Ok(customers.Result);
+            return Ok(customers);
         }
     }
 }
