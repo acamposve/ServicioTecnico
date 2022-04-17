@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,13 +19,6 @@
     <ProjectReference Include="..\DocManager.Domain\ServicioTecnico.Domain.csproj" />
     <ProjectReference Include="..\DocManager.Infrastructure.Shared\ServicioTecnico.Infrastructure.Shared.csproj" />
     <ProjectReference Include="..\DocManager.Infrastructure\ServicioTecnico.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\ReceiptStatus\" />
-    <Folder Include="Commands\ReceiptFiles\" />
-    <Folder Include="Commands\Receipts\" />
-    <Folder Include="Queries\" />
   </ItemGroup>
 
 </Project>

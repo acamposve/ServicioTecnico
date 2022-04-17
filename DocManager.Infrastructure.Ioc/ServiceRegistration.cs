@@ -27,22 +27,16 @@ namespace ServicioTecnico.Infrastructure.Ioc
 
             //repositories
             services.AddScoped<IDapper, Dapperr>();
-            services.AddScoped<IReceiptRepository, ReceiptRepository>();
-            services.AddScoped<IReceiptsAccountsRepository, ReceiptsAccountsRepository>();
-            services.AddScoped<IReceiptsFilesRepository, ReceiptsFilesRepository>();
-            services.AddScoped<IReceiptStatusRepository, ReceiptStatusRepository>();
-            services.AddScoped<IUserRepositoryAsync, UserRepositoryAsync>();
 
+            services.AddScoped<IUserRepositoryAsync, UserRepositoryAsync>();
+            services.AddScoped<ICustomerRepositoryAsync, CustomerRepositoryAsync>();
 
 
             //services
             // configure DI for application services
             services.AddSingleton<ILoggerManager, LoggerManager>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IReceiptService, ReceiptService>();
-            services.AddScoped<IReceiptStatusService, ReceiptStatusService>();
-            services.AddScoped<IReceiptsFilesService, ReceiptsFilesService>();
-            services.AddScoped<IReceiptsAccountsService, ReceiptsAccountsService>();
+            services.AddScoped<ICustomerService, CustomerService>();
         }
     }
 }
