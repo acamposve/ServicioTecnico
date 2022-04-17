@@ -71,6 +71,7 @@ namespace ServicioTecnico.Application.Services
         }
         public async Task<int> Create(CreateRequest model)
         {
+
             int valor = await _userRepository.CreateAsync(model);
             return valor;
         }
