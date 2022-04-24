@@ -12,7 +12,6 @@ using ServicioTecnico.Infrastructure.Shared.Helpers;
 using System;
 using System.Text;
 using System.Text.Json.Serialization;
-using WebApi.Extensions;
 
 namespace WebApi
 {
@@ -82,7 +81,6 @@ namespace WebApi
                 o.MultipartBodyLengthLimit = int.MaxValue;
                 o.MemoryBufferThreshold = int.MaxValue;
             });
-            services.AddMyGraphQLServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,8 +106,6 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGraphQL().WithOptions(new HotChocolate.AspNetCore.GraphQLServerOptions()
-                { Tool = { Enable=true} });
             });
         }
     }
