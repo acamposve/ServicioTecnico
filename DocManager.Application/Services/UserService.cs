@@ -69,19 +69,19 @@ namespace ServicioTecnico.Application.Services
         {
             return await _userRepository.GetByIdAsync(id);
         }
-        public async Task<int> Create(CreateRequest model)
+        public async Task<User> Create(CreateRequest model)
         {
 
-            int valor = await _userRepository.CreateAsync(model);
+            var valor = await _userRepository.CreateAsync(model);
             return valor;
         }
-        public void Update(int id, UpdateRequest model)
+        public async Task Update(int id, UpdateRequest model)
         {
-            _userRepository.UpdateAsync(id, model);
+            await _userRepository.UpdateAsync(id, model);
         }
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _userRepository.DeleteAsync(id);
+            await _userRepository.DeleteUserAsync(id);
         }
     }
 }

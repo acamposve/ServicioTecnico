@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using ServicioTecnico.Infrastructure.Context;
 
 namespace ServicioTecnico.Infrastructure.Ioc
 {
@@ -26,7 +27,7 @@ namespace ServicioTecnico.Infrastructure.Ioc
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             //repositories
-            services.AddScoped<IDapper, Dapperr>();
+            services.AddSingleton<DapperContext>();
 
             services.AddScoped<IUserRepositoryAsync, UserRepositoryAsync>();
             services.AddScoped<ICustomerRepositoryAsync, CustomerRepositoryAsync>();

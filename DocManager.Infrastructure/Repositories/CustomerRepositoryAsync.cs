@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using ServicioTecnico.Domain.Entities;
 using ServicioTecnico.Domain.Models.Customer;
+using ServicioTecnico.Infrastructure.Context;
 using ServicioTecnico.Infrastructure.Interfaces;
 using ServicioTecnico.Infrastructure.Shared.Helpers;
 using ServicioTecnico.Infrastructure.Shared.Interfaces;
@@ -16,53 +17,98 @@ namespace ServicioTecnico.Infrastructure.Repositories
 {
     public class CustomerRepositoryAsync : ICustomerRepositoryAsync
     {
-        private readonly AppSettings _appSettings;
-        private readonly IDapper _dapper;
+        private readonly DapperContext _context;
         private readonly ILoggerManager _logger;
 
-        public CustomerRepositoryAsync(IOptions<AppSettings> appSettings, IDapper dapper, ILoggerManager logger)
+        public CustomerRepositoryAsync(DapperContext context, ILoggerManager logger)
         {
-            _appSettings = appSettings.Value;
-            _dapper = dapper;
+            _context = context;
             _logger = logger;
         }
 
         public async Task<Customer> CreateAsync(Customer model)
         {
-            var sql = "INSERT INTO [dbo].[Customer] ([CustomerId],[Name],[Description],[Phone],[Email],[Address], [Address2]) VALUES (@CustomerId, @Name, @Description, @Phone, @Email, @Address, @Address2)";
-            var dbparams = new DynamicParameters();
-            dbparams.Add("CustomerId", model.CustomerId, DbType.Guid);
-            dbparams.Add("Name", model.Name, DbType.String);
-            dbparams.Add("Description", model.Description, DbType.String);
-            dbparams.Add("Phone", model.Phone, DbType.String);
-            dbparams.Add("Email", model.Email, DbType.String);
-            dbparams.Add("Address", model.Address, DbType.String);
-            dbparams.Add("Address2", model.Address2, DbType.String);
+            var query = "INSERT INTO [dbo].[Customer] ([CustomerId],[Name],[Description],[Phone],[Email],[Address], [Address2]) VALUES (@CustomerId, @Name, @Description, @Phone, @Email, @Address, @Address2)";
+            var parameters = new DynamicParameters();
+            parameters.Add("CustomerId", model.CustomerId, DbType.Guid);
+            parameters.Add("Name", model.Name, DbType.String);
+            parameters.Add("Description", model.Description, DbType.String);
+            parameters.Add("Phone", model.Phone, DbType.String);
+            parameters.Add("Email", model.Email, DbType.String);
+            parameters.Add("Address", model.Address, DbType.String);
+            parameters.Add("Address2", model.Address2, DbType.String);
 
-            return await Task.FromResult(_dapper.Insert<Customer>(sql, dbparams, CommandType.Text));
+            using (var connection = _context.CreateConnection())
+            {
+                var id = await connection.QuerySingleAsync<Guid>(query, parameters);
+                var createdUser = new Customer
+                {
+                    CustomerId = id,
+                    Name = model.Name,
+                    Description = model.Description,
+                    Phone = model.Phone,
+                    Email = model.Email,
+                    Address = model.Address,
+                    Address2 = model.Address2
+                };
+                return createdUser;
+            }
         }
 
-        public void DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            var sql = "delete from Customers where CustomerId = @id";
-            var dbPara = new DynamicParameters();
-            dbPara.Add("id", id);
-            var updateArticle = Task.FromResult(_dapper.Delete(sql, dbPara, commandType: CommandType.Text));
+            var query = "DELETE FROM Customer where CustomerId = @Id";
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, new { id });
+            }
         }
 
-        public IQueryable<Customer> GetAllAsync()
+        public async Task<IEnumerable<Customer>> GetAllAsync()
         {
-            var customers = Task.FromResult(_dapper.GetAll<Customer>($"Select * from [Customer]", null, commandType: CommandType.Text));
-            return customers.Result.AsQueryable();
+            var query = "SELECT * FROM [dbo].[Customer]";
+            try
+            {
+                using (var connection = _context.CreateConnection())
+                {
+                    var users = await connection.QueryAsync<Customer>(query);
+                    return users.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
-        public async Task<Customer> GetByIdAsync(Guid id)
+        public async Task<Customer> GetByIdAsync(Guid CustomerId)
         {
-            var result = await Task.FromResult(_dapper.Get<Customer>($"Select * from [Customer] where Id = {id}", null, commandType: CommandType.Text));
-            return result;
+            var query = "SELECT * FROM Customer WHERE CustomerId = @CustomerId";
+            using (var connection = _context.CreateConnection())
+            {
+                var user = await connection.QuerySingleOrDefaultAsync<Customer>(query, new { CustomerId });
+                return user;
+            }
         }
 
+        public async Task UpdateAsync(Guid id, Customer model)
+        {
+            var query = "UPDATE [dbo].[Users] SET [FirstName] = @FirstName, [LastName] = @LastName, [Username] = @Username, [Role] = @Role, [Password] = @Password, [Email] = @Email WHERE id = @id";
+            var parameters = new DynamicParameters();
+            parameters.Add("CustomerId", id, DbType.Guid);
+            parameters.Add("Name", model.Name, DbType.String);
+            parameters.Add("Description", model.Description, DbType.String);
+            parameters.Add("Phone", model.Phone, DbType.String);
+            parameters.Add("Email", model.Email, DbType.String);
+            parameters.Add("Address", model.Address, DbType.String);
+            parameters.Add("Address2", model.Address2, DbType.String);
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            }
+        }
 
-        
     }
 }

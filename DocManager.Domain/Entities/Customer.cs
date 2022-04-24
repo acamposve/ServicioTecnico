@@ -7,7 +7,7 @@ namespace ServicioTecnico.Domain.Entities
 {
     public class Customer
     {
-        public Guid? CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }

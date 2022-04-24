@@ -10,10 +10,10 @@ namespace ServicioTecnico.Infrastructure.Interfaces
     public interface IUserRepositoryAsync
     {
         Task<User> Authenticate(string username, string password);
-        Task<int> CreateAsync(CreateRequest model);
-        void UpdateAsync(int id, UpdateRequest model);
+        Task DeleteUserAsync(int id);
+        Task<IEnumerable<User>> GetAllAsync();
         Task<User> GetByIdAsync(int id);
-        Task<IReadOnlyList<User>> GetAllAsync();
-        void DeleteAsync(int id);
+        Task UpdateAsync(int id, UpdateRequest model);
+        Task<User> CreateAsync(CreateRequest model);
     }
 }

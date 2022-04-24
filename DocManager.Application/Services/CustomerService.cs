@@ -30,9 +30,9 @@ namespace ServicioTecnico.Application.Services
             _appSettings = appSettings.Value;
             _mapper = mapper;
 
-         }
+        }
 
-        public async Task<Customer> Create(CreateRequest model)
+        public async Task<Customer> Create(Customer model)
         {
             var cus = new Customer();
             try
@@ -55,16 +55,28 @@ namespace ServicioTecnico.Application.Services
             return await _customerRepository.CreateAsync(cus);
         }
 
-        public IQueryable<Customer> GetAllAsync()
+        public async Task<IEnumerable<Customer>> GetAll()
         {
-            var customers = _customerRepository.GetAllAsync();
 
-            return customers.AsQueryable();
+            var customers = await _customerRepository.GetAllAsync();
+
+            return customers;
         }
 
-        public async Task<Customer> GetByIdAsync(Guid id)
+        public async Task<Customer> GetById(Guid id)
         {
             return await _customerRepository.GetByIdAsync(id);
+        }
+
+        public async Task Update(Guid id, Customer model)
+        {
+
+            await _customerRepository.UpdateAsync(id, model);
+        }
+        public async Task Delete(Guid id)
+        {
+
+            await _customerRepository.DeleteAsync(id);
         }
     }
 }

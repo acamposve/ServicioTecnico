@@ -9,9 +9,9 @@ namespace ServicioTecnico.Infrastructure.Interfaces
     public interface ICustomerRepositoryAsync
     {
         Task<Customer> CreateAsync(Customer model);
-        void DeleteAsync(Guid id);
-
-        IQueryable<Customer> GetAllAsync();
+        Task DeleteAsync(Guid id);
+        Task<IEnumerable<Customer>> GetAllAsync();
         Task<Customer> GetByIdAsync(Guid id);
+        Task UpdateAsync(Guid id, Customer model);
     }
 }

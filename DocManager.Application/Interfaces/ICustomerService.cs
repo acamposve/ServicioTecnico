@@ -10,9 +10,10 @@ namespace ServicioTecnico.Application.Interfaces
 {
     public interface ICustomerService
     {
-        Task<Customer> Create(CreateRequest model);
-        IQueryable<Customer> GetAllAsync();
-
-        Task<Customer> GetByIdAsync(Guid id);
+        Task<IEnumerable<Customer>> GetAll();
+        Task<Customer> GetById(Guid id);
+        Task<Customer> Create(Customer model);
+        Task Update(Guid id, Customer model);
+        Task Delete(Guid id);
     }
 }

@@ -9,20 +9,20 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using ServicioTecnico.Infrastructure.Context;
+using System.Linq;
 
 namespace ServicioTecnico.Infrastructure.Repositories
 {
     public class UserRepositoryAsync : IUserRepositoryAsync
     {
-        private readonly AppSettings _appSettings;
-        private readonly IDapper _dapper;
+        private readonly DapperContext _context;
         private readonly ILoggerManager _logger;
 
 
-        public UserRepositoryAsync(IOptions<AppSettings> appSettings, IDapper dapper, ILoggerManager logger)
+        public UserRepositoryAsync(DapperContext context, ILoggerManager logger)
         {
-            _appSettings = appSettings.Value;
-            _dapper = dapper;
+            _context = context;
             _logger = logger;
         }
 
@@ -30,10 +30,14 @@ namespace ServicioTecnico.Infrastructure.Repositories
         {
             try
             {
-                var user = await Task.FromResult(_dapper.Get<User>($"Select * from [Users] where username = '{username}' and password ='{password}'", null, commandType: CommandType.Text));
+                var query = $"Select * from [Users] where username = '{username}' and password ='{password}'";
 
-                _logger.LogInformation("Exito");
-                return user;
+                using (var connection = _context.CreateConnection())
+                {
+                    var user = await connection.QuerySingleOrDefaultAsync<User>(query);
+                    _logger.LogInformation("Exito");
+                    return user;
+                }
             }
             catch (Exception ex)
             {
@@ -42,64 +46,79 @@ namespace ServicioTecnico.Infrastructure.Repositories
             }
         }
 
-        public void DeleteAsync(int id)
+        public async Task DeleteUserAsync(int id)
         {
-            var dbPara = new DynamicParameters();
-            dbPara.Add("id", id);
-            var updateArticle = Task.FromResult(_dapper.Update<int>("[dbo].[pa_delete_users]", dbPara, commandType: CommandType.StoredProcedure));
+            var query = "DELETE FROM Users WHERE Id = @Id";
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, new { id });
+            }
         }
 
-        public async Task<IReadOnlyList<User>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await Task.FromResult(_dapper.GetAll<User>($"Select * from [Users]", null, commandType: CommandType.Text));
+            var query = "SELECT [id],[FirstName],[LastName],[Username],[Role],[Password],[Email] FROM [dbo].[Users]";
+            using (var connection = _context.CreateConnection())
+            {
+                var users = await connection.QueryAsync<User>(query);
+                return users.ToList();
+            }
         }
 
         public async Task<User> GetByIdAsync(int id)
         {
-            var result = await Task.FromResult(_dapper.Get<User>($"Select * from [Users] where Id = {id}", null, commandType: CommandType.Text));
-            return result;
+            var query = "SELECT * FROM Users WHERE id = @Id";
+            using (var connection = _context.CreateConnection())
+            {
+                var user = await connection.QuerySingleOrDefaultAsync<User>(query, new { id });
+                return user;
+            }
         }
 
 
-        public async void UpdateAsync(int id, UpdateRequest model)
+        public async Task UpdateAsync(int id, UpdateRequest model)
         {
-            var user = await GetByIdAsync(id);
-
-            var userBD = await Task.FromResult(_dapper.Get<User>($"Select * from [Users] where Username = '{model.Username}'", null, commandType: CommandType.Text));
-
-            // validate
-            if (model.Username != user.Username && userBD != null)
-                throw new AppException("User with the email '" + model.Username + "' already exists");
-
-            var dbPara = new DynamicParameters();
-            dbPara.Add("id", user.Id);
-            dbPara.Add("FirstName", model.FirstName, DbType.String);
-            dbPara.Add("LastName", model.LastName, DbType.String);
-            dbPara.Add("Username", model.Username, DbType.String);
-            dbPara.Add("Role", model.Role, DbType.String);
-            dbPara.Add("Password", model.Password, DbType.String);
-            dbPara.Add("Email", model.Email, DbType.String);
-
-            var updateArticle = Task.FromResult(_dapper.Update<int>("[dbo].[pa_update_users]", dbPara, commandType: CommandType.StoredProcedure));
+            var query = "UPDATE [dbo].[Users] SET [FirstName] = @FirstName, [LastName] = @LastName, [Username] = @Username, [Role] = @Role, [Password] = @Password, [Email] = @Email WHERE id = @id";
+            var parameters = new DynamicParameters();
+            parameters.Add("id", id, DbType.Int32);
+            parameters.Add("FirstName", model.FirstName, DbType.String);
+            parameters.Add("LastName", model.LastName, DbType.String);
+            parameters.Add("Username", model.Username, DbType.String);
+            parameters.Add("Role", model.Role, DbType.String);
+            parameters.Add("Password", model.Password, DbType.String);
+            parameters.Add("Email", model.Email, DbType.String);
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            }
         }
 
 
-        public async Task<int>  CreateAsync(CreateRequest model)
+        public async Task<User> CreateAsync(CreateRequest model)
         {
-            var userBD = await Task.FromResult(_dapper.Get<User>($"Select * from [Users] where Username = '{model.Username}'", null, commandType: CommandType.Text));
-            // validate
-            if (userBD != null)
-                throw new AppException("User with the email '" + model.Username + "' already exists");
-
-            var dbparams = new DynamicParameters();
-            dbparams.Add("FirstName", model.FirstName, DbType.String);
-            dbparams.Add("LastName", model.LastName, DbType.String);
-            dbparams.Add("Username", model.Username, DbType.String);
-            dbparams.Add("Role", model.Role, DbType.String);
-            dbparams.Add("Password", model.Password, DbType.String);
-            dbparams.Add("Email", model.Email, DbType.String);
-            var result = await Task.FromResult(_dapper.Insert<int>("[dbo].[pa_insert_users]", dbparams, commandType: CommandType.StoredProcedure));
-            return 1;
+            var query = "INSERT INTO [dbo].[Users] ([FirstName],[LastName],[Username],[Role], [Password], [Email]) VALUES (@FirstName, @LastName, @Username, @Role, @Password, @Email)" +
+                    "SELECT CAST(SCOPE_IDENTITY() as int)";
+            var parameters = new DynamicParameters();
+            parameters.Add("FirstName", model.FirstName, DbType.String);
+            parameters.Add("LastName", model.LastName, DbType.String);
+            parameters.Add("Username", model.Username, DbType.String);
+            parameters.Add("Role", model.Role, DbType.String);
+            parameters.Add("Password", model.Password, DbType.String);
+            parameters.Add("Email", model.Email, DbType.String);
+            using (var connection = _context.CreateConnection())
+            {
+                var id = await connection.QuerySingleAsync<int>(query, parameters);
+                var createdUser = new User
+                {
+                    Id = id,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Username = model.Username,
+                    Role = model.Role,
+                    Email = model.Email
+                };
+                return createdUser;
+            }
         }
     }
 }
