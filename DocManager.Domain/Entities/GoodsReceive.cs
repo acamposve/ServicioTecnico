@@ -10,6 +10,7 @@ namespace ServicioTecnico.Domain.Entities
 {
     public class GoodsReceive
     {
+        [Key]
         public Guid GoodsReceiveId { get; set; }
         [Required]
         public string Number { get; set; }
