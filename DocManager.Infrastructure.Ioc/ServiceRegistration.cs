@@ -31,13 +31,14 @@ namespace ServicioTecnico.Infrastructure.Ioc
 
             services.AddScoped<IUserRepositoryAsync, UserRepositoryAsync>();
             services.AddScoped<ICustomerRepositoryAsync, CustomerRepositoryAsync>();
-
-
+            services.AddScoped<IPurchaseOrderLineRepositoryAsync, PurchaseOrderLineRepositoryAsync>();
+            services.AddScoped<IGoodsReceiveRepository, GoodsReceiveRepository>();
             //services
             // configure DI for application services
             services.AddSingleton<ILoggerManager, LoggerManager>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IGoodsReceiveService, GoodsReceiveService>();
         }
     }
 }
