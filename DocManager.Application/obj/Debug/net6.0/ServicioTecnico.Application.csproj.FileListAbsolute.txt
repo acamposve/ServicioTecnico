@@ -1,3 +1,8 @@
+C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.csproj.AssemblyReference.cache
+C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.AssemblyInfoInputs.cache
+C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.AssemblyInfo.cs
+C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.csproj.CoreCompileInputs.cache
 C:\proyectos\ServicioTecnico\DocManager.Application\bin\Debug\net6.0\ServicioTecnico.Application.deps.json
 C:\proyectos\ServicioTecnico\DocManager.Application\bin\Debug\net6.0\ServicioTecnico.Application.dll
 C:\proyectos\ServicioTecnico\DocManager.Application\bin\Debug\net6.0\ServicioTecnico.Application.pdb
@@ -7,11 +12,6 @@ C:\proyectos\ServicioTecnico\DocManager.Application\bin\Debug\net6.0\ServicioTec
 C:\proyectos\ServicioTecnico\DocManager.Application\bin\Debug\net6.0\ServicioTecnico.Domain.pdb
 C:\proyectos\ServicioTecnico\DocManager.Application\bin\Debug\net6.0\ServicioTecnico.Infrastructure.Shared.pdb
 C:\proyectos\ServicioTecnico\DocManager.Application\bin\Debug\net6.0\ServicioTecnico.Infrastructure.pdb
-C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.csproj.AssemblyReference.cache
-C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.GeneratedMSBuildEditorConfig.editorconfig
-C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.AssemblyInfoInputs.cache
-C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.AssemblyInfo.cs
-C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.csproj.CoreCompileInputs.cache
 C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.csproj.CopyComplete
 C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\ServicioTecnico.Application.dll
 C:\proyectos\ServicioTecnico\DocManager.Application\obj\Debug\net6.0\refint\ServicioTecnico.Application.dll

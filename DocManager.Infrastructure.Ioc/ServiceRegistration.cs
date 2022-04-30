@@ -34,7 +34,8 @@ namespace ServicioTecnico.Infrastructure.Ioc
             services.AddScoped<IPurchaseOrderLineRepositoryAsync, PurchaseOrderLineRepositoryAsync>();
             services.AddScoped<IGoodsReceiveRepository, GoodsReceiveRepository>();
             services.AddScoped<IVendorRepositoryAsync, VendorRepositoryAsync>();
-            
+            services.AddScoped<IProductRepositoryAsync, ProductRepositoryAsync>();
+
             //services
             // configure DI for application services
             services.AddSingleton<ILoggerManager, LoggerManager>();
@@ -42,6 +43,7 @@ namespace ServicioTecnico.Infrastructure.Ioc
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IGoodsReceiveService, GoodsReceiveService>();
             services.AddScoped<IVendorService, VendorService>();
+            services.AddScoped<IProductService, ProductService>();
         }
     }
 }
